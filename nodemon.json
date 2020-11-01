@@ -1,0 +1,5 @@
+{
+  "watch": ["src/**/*.js", "src/**/*.py"],
+  "ext": "js,py",
+  "exec": "npm run sync"
+}
