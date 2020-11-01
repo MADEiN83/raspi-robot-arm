@@ -1,22 +1,23 @@
-const http = require("http");
-const fs = require("fs");
-const mySocket = require("./socket");
-const ServoController = require("./ServoController");
-const servoController = new ServoController();
+const express = require("express");
+const app = express();
+const http = require("http").createServer(app);
 
-const server = http.createServer((req, res) => {
-  fs.readFile(__dirname + "/../public/index.html", (err, data) => {
-    if (err) {
-      res.writeHead(500);
-      return res.end("Error loading socket.io.html");
-    }
+const SocketController = require("./core/SocketController");
+const ServoController = require("./core/ServoController");
 
-    res.writeHead(200);
-    res.end(data);
-  });
+const SERVO_MOTORS = require("./core/servo.config");
+const servoControllers = SERVO_MOTORS.map(
+  (aMotor) => new ServoController(aMotor)
+);
+
+const socketController = new SocketController(http, servoControllers);
+socketController.init();
+
+app.use("/", express.static(__dirname + "/../public"));
+app.get("/", (_, res) => {
+  res.sendFile(__dirname + "/../public/index.html");
 });
 
-mySocket.init(server, servoController);
-
-server.listen(8080);
-console.log("server running on port:", 8080);
+http.listen(8080, () => {
+  console.log("server running on port:", 8080);
+});

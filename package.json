@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon",
-    "start:prod": "ssh pi -t -t \"sudo node ~/projects/servo/src/index.js\"",
+    "start:prod": "ssh pi@192.168.0.19 -t -t \"sudo node ~/projects/servo/src/index.js\"",
     "sync": "rsync -auP . pi@192.168.0.19:~/projects/servo",
     "postsync": "npm run start:prod"
   },
@@ -13,11 +13,13 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "fs": "0.0.1-security",
     "http": "0.0.1-security",
     "nodemon": "^2.0.4",
     "pigpio": "^3.2.3",
     "socket.io": "^2.3.0",
     "socketio-wildcard": "^2.0.0"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
   }
 }

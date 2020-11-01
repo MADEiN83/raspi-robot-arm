@@ -1,42 +1,30 @@
 <!DOCTYPE html>
 <html>
-    <head>
-<title>GPIO Control</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-</style>
-</head>
+  <head>
+    <title>GPIO Control</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+    <script src="./js/main.js"></script>
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
 
-<body>
+  <body>
     <h2>Control GPIO 4</h2>
 
-    <div>
-        <input id="value" type="number" value="90" min="0" max="180"/>
-        <button onclick="moveMotor()" style="background-color:green;">MOVE</button>
-        <button onclick="moveMotorMin()" style="background-color:green;">MIN</button>
-        <button onclick="moveMotorMax()" style="background-color:green;">MAX</button>
-    </div>
+    <section id="moveSection">
+      <div>
+        <input class="value" type="number" value="90" min="0" max="180" />
+        <button data-event="moveAngles">MOVE</button>
+        <button data-event="moveMin">MIN</button>
+        <button data-event="moveMax">MAX</button>
+      </div>
 
-    <div>
-        <input id="animate-value" value="0 180 0 90 180 90 0"/>
-        <button onclick="animate()" style="background-color:green;">ANIMATE</button>
-    </div>
+      <div>
+        <input class="animate-value" value="0 180 0 90 180 90 0" />
+        <button data-event="animate">ANIMATE</button>
+      </div>
 
-    <script>
-        var socket = io.connect(); //load socket.io-client and connect to the host
-        const moveMotor = () => socket.emit("moveMotor",
-            Number(document.getElementById("value").value)
-        );
-
-        const moveMotorMin = () => socket.emit("moveMotorMin");
-        const moveMotorMax = () => socket.emit("moveMotorMax");
-        const animate = () => socket.emit("animate",
-        document.getElementById("animate-value").value.split(" ").map(p=>Number(p)));
-
-    </script>
-
-</html>
-</body>
-
+      <hr />
+    </section>
+  </body>
 </html>
